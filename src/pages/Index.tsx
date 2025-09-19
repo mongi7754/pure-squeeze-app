@@ -52,8 +52,8 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4 text-background">Contact</h3>
               <ul className="space-y-2 text-sm text-background/80">
-                <li>📞 +254 700 123 456</li>
-                <li>📧 hello@puresqueeze.co.ke</li>
+                <li>📞 0715551324</li>
+                <li>📧 cateneema61@gmail.com</li>
                 <li>📍 Nairobi, Kenya</li>
                 <li>🕒 Mon-Sat: 7AM-7PM</li>
               </ul>

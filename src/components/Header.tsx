@@ -1,9 +1,29 @@
-import { ShoppingCart, Menu, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Cart } from "@/components/Cart";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  const updateQuantity = (id: string, quantity: number) => {
+    if (quantity === 0) {
+      removeItem(id);
+    } else {
+      setCartItems(prev => prev.map(item => 
+        item.id === id ? { ...item, quantity } : item
+      ));
+    }
+  };
+
+  const removeItem = (id: string) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+  };
   const [cartCount] = useState(0);
 
   return (
@@ -22,21 +42,21 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Home
-          </a>
-          <a href="/shop" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          </Link>
+          <Link to="/shop" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Shop
-          </a>
-          <a href="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          </Link>
+          <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             About
-          </a>
-          <a href="/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          </Link>
+          <Link to="/blog" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Blog
-          </a>
-          <a href="/contact" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          </Link>
+          <Link to="/contact" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Contact
-          </a>
+          </Link>
         </nav>
 
         {/* Actions */}
@@ -48,17 +68,12 @@ export const Header = () => {
           </Button>
 
           {/* Cart */}
-          <Button variant="outline" size="sm" className="relative">
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            <span className="hidden sm:inline">Cart</span>
-            {cartCount > 0 && (
-              <Badge 
-                className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 text-xs bg-primary text-primary-foreground"
-              >
-                {cartCount}
-              </Badge>
-            )}
-          </Button>
+          <Cart 
+            items={cartItems}
+            onUpdateQuantity={updateQuantity}
+            onRemoveItem={removeItem}
+            onClearCart={clearCart}
+          />
 
           {/* Mobile Menu */}
           <Button variant="ghost" size="sm" className="md:hidden">
